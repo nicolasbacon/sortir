@@ -6,6 +6,7 @@ use App\Repository\SortieRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SortieRepository::class)]
 class Sortie
@@ -15,23 +16,34 @@ class Sortie
     #[ORM\Column(type: 'integer')]
     private $id;
 
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 1, max: 255, minMessage: 'Ce nom de sortie est trop court',maxMessage: 'Ce nom de sortie est trop long') ]
     #[ORM\Column(type: 'string', length: 255)]
     private $nom;
 
+    #[Assert\NotBlank]
     #[ORM\Column(type: 'datetime')]
     private $dateHeureDebut;
 
+    #[Assert\NotBlank]
+    #[Assert\Positive(message: "La durée de la sortie doit être supérieure à 0 minute")]
     #[ORM\Column(type: 'integer')]
     private $duree;
 
+    #[Assert\NotBlank]
     #[ORM\Column(type: 'date')]
     private $dateLimiteInscription;
 
+    #[Assert\NotBlank]
+    #[Assert\Positive(message: "Le nombre de places pour cette activité doit être supérieur à 0")]
     #[ORM\Column(type: 'integer')]
     private $nbInscriptionMax;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 4000,maxMessage: 'Cette description est trop longue') ]
+    #[ORM\Column(type: 'text')]
     private $infosSortie;
+
 
     #[ORM\ManyToMany(targetEntity: Participant::class, mappedBy: 'sortiesInscrit')]
     private $participants;
@@ -40,6 +52,7 @@ class Sortie
     #[ORM\JoinColumn(nullable: false)]
     private $organisateur;
 
+    #[Assert\NotBlank]
     #[ORM\ManyToOne(targetEntity: Campus::class, inversedBy: 'sorties')]
     #[ORM\JoinColumn(nullable: false)]
     private $campus;
@@ -48,6 +61,7 @@ class Sortie
     #[ORM\JoinColumn(nullable: false)]
     private $etat;
 
+    #[Assert\NotBlank]
     #[ORM\ManyToOne(targetEntity: Lieu::class, inversedBy: 'sorties')]
     #[ORM\JoinColumn(nullable: false)]
     private $lieu;

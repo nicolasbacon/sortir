@@ -40,7 +40,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'boolean')]
     private $actif;
 
-    #[ORM\ManyToMany(targetEntity: Sortie::class, inversedBy: 'participants')]
+    #[ORM\ManyToMany(targetEntity: Sortie::class, inversedBy: 'participants', cascade: ['persist'])]
     private $sortiesInscrit;
 
     #[ORM\OneToMany(mappedBy: 'organisateur', targetEntity: Sortie::class)]
@@ -257,7 +257,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCampus(?Campus $campus): self
     {
         $this->campus = $campus;
-
+        $campus->addParticipant($this);
         return $this;
     }
 

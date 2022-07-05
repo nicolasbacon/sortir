@@ -30,7 +30,7 @@ class Sortie
     #[ORM\Column(type: 'integer')]
     private $nbInscriptionMax;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'text')]
     private $infosSortie;
 
     #[ORM\ManyToMany(targetEntity: Participant::class, mappedBy: 'sortiesInscrit')]

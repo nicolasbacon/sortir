@@ -130,6 +130,7 @@ class Lieu
     public function setVille(?Ville $ville): self
     {
         $this->ville = $ville;
+        $ville->addLieux($this);
 
         return $this;
     }
